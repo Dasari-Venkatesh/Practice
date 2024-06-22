@@ -6,3 +6,7 @@ The features include :
 - Users can add todos
 - Can update todos
 - Anyone can mark todo as Done
+
+Feautures to be added :
+- Authentication
+- Mark as done button
