@@ -1,69 +1,34 @@
-import { useState, useEffect } from "react";
+import { useEffect,useState } from "react";
 
-let GLOBAL_ID = 4;
-
-function App() {
+function App(){
+  const [id,setId] = useState(1);
+  
   return <>
-    <CardWrapper>
-      Venkatesh here
-      <CardWrapper>
-        Venkatesh here and there
-      </CardWrapper>
-    </CardWrapper>
-    <CardWrapper>
-      Venkatesh here and there
-    </CardWrapper>
-    <CardWrapper>
-      <TextComponent/>
-    </CardWrapper>
+    <button onClick={() => {
+      setId(id+1);
+    }}> Next Todo</button>
+    <Todo id = {id}></Todo>
   </>
 }
 
-function TextComponent(){
-  return <div>
-    Hi from text component func,
-  </div>
-  const [todos, setTodos ] = new useState([])
-  // Pooling the Todos by getting from server 
+function Todo({id}){
+  const [todo, setTodo] = useState({'title':'','description':''});
 
-  // fetch("https://sum-server.100xdevs.com/todos").then(async (res) =>{
-  //   const result = await res.json();
-  //   setTodos(result.todos);
-  // })
-
-  // Pooling by using the useEffect hook
-  
   useEffect(() => {
-    fetch("https://sum-server.100xdevs.com/todos").then(async (res) =>{
+    fetch(`https://sum-server.100xdevs.com/todo?id=${ id }`).then(async (res) => {
       const result = await res.json();
-      setTodos(result.todos);
-    })
-  },[])
-  return ( <>
-  {todos.map((todo) => <Todo key={todo.id} title={todo.title} description={todo.description}/>)}
-  </>)
-   
-  
-}
+      // console.log(result)
+      setTodo(result.todo)
+    }).catch((error) => console.error('Error fetching the todo:', error));
+  },[id])
 
-function CardWrapper({children}){
-    return <div style={{border: "2px solid black",padding: 100}}>
-      {children}
-    </div>
-}
+  let title = todo.title;
+  let description = todo.description;
+  return <div>
+    <h1>{title}</h1>  
+    <h3>{description}</h3>
+  </div>
 
+}
 
 export default App
-
-
-// function App() {
-
-
-//   return (
-//     <div>
-//       <h1>hello</h1>
-//     </div>
-//   )
-// }
-
-// export default App
