@@ -6,9 +6,7 @@ function App() {
   return (
     <div>
       <div>
-        <button onClick={() => {
-          window.location.href = "/"
-        }}>Landing</button>
+        <button onClick={() => window.location.href = "/"}>Landing</button>
         <button onClick={() => window.location.href = "/Dashboard"}>Dashboard</button>
       </div>
     
