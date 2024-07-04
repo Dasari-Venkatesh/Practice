@@ -1,24 +1,26 @@
-import {Dashboard} from './components/Dashboard.jsx'
-import {Landing} from "./components/landing.jsx"
-import { BrowserRouter, Route, Routes} from 'react-router-dom'
+import { Dashboard } from './components/Dashboard.jsx'
+import { Landing } from "./components/landing.jsx"
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
 
 function App() {
   return (
-    <div>
-      <div>
-        <button onClick={() => window.location.href = "/"}>Landing</button>
-        <button onClick={() => window.location.href = "/Dashboard"}>Dashboard</button>
-      </div>
-    
     <BrowserRouter>
+      <Topbar />
       <Routes>
-        <Route path='/dashboard' element= {<Dashboard/>}/>
-          
-        <Route path='/' element= {<Landing/>} />
+        <Route path='/dashboard' element={<Dashboard />} />
+
+        <Route path='/' element={<Landing />} />
       </Routes>
     </BrowserRouter>
-    </div>
   )
 }
 
+function Topbar() {
+  const navigate = useNavigate();
+
+  return <div>
+    <button onClick={() => navigate("/")}>Landing</button>
+    <button onClick={() => navigate("/Dashboard")}>Dashboard</button>
+  </div>
+}
 export default App
