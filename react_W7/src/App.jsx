@@ -1,31 +1,42 @@
-import React, { Suspense } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
-
-import { Landing } from "./components/landing.jsx"
-const LazyDashboard = React.lazy(() => import('./components/Dashboard.jsx'))
+import React, { useContext } from "react";
+import { useState } from "react";
+import { CountContext } from "./context";
 
 function App() {
+  const [count, setCount] = useState(0);
   return (
-    <BrowserRouter>
-      <Topbar />
-      <Routes>
-        <Route path='/dashboard' 
-          element={
-            <Suspense fallback={<div> loading....... </div> }>
-              <LazyDashboard />
-            </Suspense>} />
-        <Route path='/' element={<Landing />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      Hi there
+      <CountContext.Provider value={ {count} }>
+        <Count setCount={setCount}/>
+      </CountContext.Provider>
+    </div>
   )
 }
 
-function Topbar() {
-  const navigate = useNavigate();
+function Count({setCount}){
+  return (
+    <div>
+      <CountRenderer /> <br />
+      <Buttons setCount={setCount}/>
+    </div>
+  )
+}
 
+function CountRenderer(){
+  const {count} = useContext(CountContext)
   return <div>
-    <button onClick={() => navigate("/")}>Landing</button>
-    <button onClick={() => navigate("/Dashboard")}>Dashboard</button>
+    {count}
   </div>
+}
+function Buttons({setCount}){
+  const {count} = useContext(CountContext)
+  return(
+  <>
+    <button onClick={() => setCount(count+1)}>Increment</button>
+    <button onClick={() => setCount(count-1)}>Decrement</button>
+  </>
+  )
+
 }
 export default App
